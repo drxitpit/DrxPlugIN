@@ -1,7 +1,6 @@
 // define canvas
 var canvas = document.getElementById("drxCanvas");
 var ctx = canvas.getContext("2d");
-ctx.fillRect(200, 420, 30, 30);
 
 // define battery
 var battery = new Image();
@@ -18,6 +17,7 @@ drx.onload = function () {
 drx.src = "img/drxLogo.jpg";
 
 var n = 260;
+var allPoints = [];
 var generator = new randomPointsGenerator(58, 54, 840, 300);
 generator.generate(n, 440, 160, 90, 80);
 
@@ -33,6 +33,21 @@ var paths = pathsGenerator.result;
 
 var drawingContext = new DrawingContext(ctx);
 drawingContext.init(points, paths);
+
+var graph = new Graph();
+graph.init(allPoints);
+var dist = 0;
+var edist = 0;
+var userDist = 0;
+for(var i = 0; i < 8; i++) {
+    dist += graph.getDist(allPoints[260 + i], allPoints[261 + i]);
+    edist += helper.euclidianDistance(allPoints[260 + i], allPoints[261+i]);
+    //graph.getPath(allPoints[260+i], allPoints[261+i], ctx);
+    i++;
+}
+console.log(dist);
+console.log(edist);
+
 
 canvas.onclick = function (e) {
     var mousePos = helper.getMousePosition(canvas, e);
