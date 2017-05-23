@@ -1,0 +1,71 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <!-- Place favicon.ico in the root directory -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+        <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+    </head>
+    <body>
+    <img style = 'position: absolute; left: 0px; top: 0px;' id="drxCar" src="img/bmwCar.jpg">
+    <canvas id="drxCanvas" width="1100" height="600" style = 'position: absolute; left: 0px; top: 0px;'></canvas>
+    <script src="js/helper.js"></script>
+    <script src="js/generator.js"></script>
+    <script src="js/drawing.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+        // define canvas
+        var canvas = document.getElementById("drxCanvas");
+        var ctx = canvas.getContext("2d");
+
+        // define battery
+        var battery = new Image();
+        battery.onload = function () {
+            ctx.drawImage(battery,460,177);
+        };
+        battery.src = "img/battery.png";
+
+        // define drx logo
+        var drx = new Image();
+        drx.onload = function () {
+            ctx.drawImage(drx, 750, 450);
+        }
+        drx.src = "img/drxLogo.jpg";
+
+        var n = 160;
+        var generator = new randomPointsGenerator(50, 40, 850, 330);
+        generator.generate(n, 450, 170, 70, 60);
+
+        var points = []
+        for(var i = 0; i < n; i++){
+            var point = new Point(generator.xs[i], generator.ys[i]);
+            point.selectable = true;
+            points.push(point);
+        }
+
+        var fr = new Path(457, 195, 40, 80, "#0000BB");
+        var fl = new Path(457, 215, 40, 325, "#BBBB00");
+        var br = new Path(513, 195, 918, 117, "#FFFF0C");
+        var bl = new Path(513, 215, 918, 288, "#F2D44B");
+        var paths = [fr, fl, br, bl];
+
+        var drawingContext = new drawingContext(ctx);
+        drawingContext.init(points, paths);
+
+        canvas.onclick = function(e) {
+
+            var mousePos = helper.getMousePosition(canvas, e);
+            drawingContext.selectPoint(mousePos.x, mousePos.y);
+        }
+    </script>
+    </body>
+</html>
