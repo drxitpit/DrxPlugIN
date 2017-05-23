@@ -18,7 +18,7 @@ drx.onload = function () {
 drx.src = "img/drxLogo.jpg";
 
 var n = 260;
-var generator = new randomPointsGenerator(50, 50, 850, 310);
+var generator = new randomPointsGenerator(58, 54, 840, 300);
 generator.generate(n, 440, 160, 90, 80);
 
 var points = []

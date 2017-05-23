@@ -25,7 +25,7 @@ function DrawingContext(ctx) {
         paths.forEach(function (path) {
             path.init(this.ctx)
         });
-    }
+    };
 
     this.selectPoint = function (x, y) {
         if (currentPath == null) {
@@ -51,7 +51,7 @@ function DrawingContext(ctx) {
             if (point != null && selectablePoints.indexOf(point) >= 0) {
                 selectablePoints.forEach(function (p) {
                     p.draw(this.ctx, "#000000");
-                })
+                });
                 path.drawNextPoint(this.ctx, point);
                 selectablePoints = getClosePoints(currentPath.crtPoint, 60);
                 selectablePoints.forEach(function (p) {
@@ -63,7 +63,7 @@ function DrawingContext(ctx) {
                 if (isFinish) {
                     selectablePoints.forEach(function (p) {
                         p.draw(this.ctx, "#000000");
-                    })
+                    });
                     path.drawNextPoint(ctx, new Point(x, y))
                 }
             }
@@ -76,7 +76,7 @@ function DrawingContext(ctx) {
                 this.gameOver = true;
             }
         }
-    }
+    };
 
     var getClosePoints = function (point, radius) {
         var result = [];
@@ -105,14 +105,14 @@ function Path(sx, sy, ex, ey, fillStyle) {
         end = new Point(this.ex, this.ey);
         this.start.draw(ctx, this.fillStyle);
         end.draw(ctx, this.fillStyle);
-    }
+    };
 
     this.canStart = function (x, y) {
 
         if (this.start == null || this.isCompleted) return false;
 
         return checkFoundPoint(x, y, this.start.x, this.start.y, 10);
-    }
+    };
 
     this.drawNextPoint = function (ctx, point) {
         if (this.crtPoint == null) {
@@ -130,12 +130,12 @@ function Path(sx, sy, ex, ey, fillStyle) {
             this.crtPoint = point;
 
         }
-    }
+    };
 
     this.checkFinish = function (x, y) {
         if (helper.manhattanDistance(this.crtPoint, end) > 60) return false;
         return helper.closeEps(new Point(x, y), end, 10);
-    }
+    };
 
     this.showCompleted = function (ctx) {
         DrawingHelper(this.ey, ctx);
@@ -154,10 +154,10 @@ function Point(x, y) {
         }
         ctx.closePath();
         ctx.fill();
-    }
+    };
     this.equal = function (p) {
         return p.x == this.x && p.y == this.y;
-    }
+    };
 
     this.equalEps = function (p) {
         return helper.closeEps(p, this, 10);
@@ -176,8 +176,7 @@ function Line(start, end) {
         }
         ctx.stroke();
     }
-};
-
+}
 function checkFoundPoint(x1, y1, x2, y2, radius) {
     var dist = (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2);
     return dist < radius * radius;
