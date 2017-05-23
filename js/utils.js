@@ -4,12 +4,13 @@
 function CustomFileReader() {
     var reader = new FileReader();
     this.result = null;
-    reader.onload = function () {
-        this.result = reader.result;
-    }
+    reader.addEventListener("loadend", function () {
+
+    });
 
     this.read = function (path) {
-        reader.readAsText(path);
+        var file = new File(path);
+        reader.readAsText(file);
     }
 }
 
