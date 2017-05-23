@@ -1,9 +1,13 @@
 /**
- * Created by tl01800941 on 5/23/2017.
+ * Created by laur on 5/23/2017.
  */
 
-
-function drawingContext(ctx) {
+/**
+ *
+ * @param ctx
+ * @constructor
+ */
+function DrawingContext(ctx) {
     this.ctx = ctx;
     this.points = [];
     this.paths = [];
@@ -15,21 +19,27 @@ function drawingContext(ctx) {
     this.init = function (points, paths) {
         this.points = points;
         this.paths = paths;
-        points.forEach(function (point) { point.draw(this.ctx, "#000000") });
-        paths.forEach(function (path) { path.init(this.ctx) });
+        points.forEach(function (point) {
+            point.draw(this.ctx, "#000000")
+        });
+        paths.forEach(function (path) {
+            path.init(this.ctx)
+        });
     }
 
-    this.selectPoint = function(x, y) {
-        if(currentPath == null) {
-            for(var i = 0; i < this.paths.length; i++) {
-                if(this.paths[i].canStart(x, y)){
+    this.selectPoint = function (x, y) {
+        if (currentPath == null) {
+            for (var i = 0; i < this.paths.length; i++) {
+                if (this.paths[i].canStart(x, y)) {
                     currentPath = this.paths[i];
                     break;
                 }
             }
-            if(currentPath != null) {
+            if (currentPath != null) {
                 var closePoints = getClosePoints(currentPath.start, 60);
-                closePoints.forEach(function (p) { p.draw(this.ctx, "#FF0000") });
+                closePoints.forEach(function (p) {
+                    p.draw(this.ctx, "#FF0000")
+                });
                 selectablePoints = closePoints;
             }
         }
@@ -37,39 +47,41 @@ function drawingContext(ctx) {
             var path = currentPath;
             var closePoints = getClosePoints(new Point(x, y), 10);
 
-            var point = (closePoints.length > 0) ?  closePoints[0] : null;
-            if(point != null && selectablePoints.indexOf(point) >= 0) {
+            var point = (closePoints.length > 0) ? closePoints[0] : null;
+            if (point != null && selectablePoints.indexOf(point) >= 0) {
                 selectablePoints.forEach(function (p) {
                     p.draw(this.ctx, "#000000");
                 })
                 path.drawNextPoint(this.ctx, point);
                 selectablePoints = getClosePoints(currentPath.crtPoint, 60);
-                selectablePoints.forEach(function (p) { p.draw(this.ctx, "#FF0000") });
+                selectablePoints.forEach(function (p) {
+                    p.draw(this.ctx, "#FF0000")
+                });
             }
             else {
                 var isFinish = path.checkFinish(x, y);
-                if(isFinish) {
+                if (isFinish) {
                     selectablePoints.forEach(function (p) {
                         p.draw(this.ctx, "#000000");
                     })
                     path.drawNextPoint(ctx, new Point(x, y))
                 }
             }
-            if(path.isCompleted) {
+            if (path.isCompleted) {
                 path.showCompleted(this.ctx);
                 noPathsCompleted++;
                 currentPath = null;
             }
-            if(noPathsCompleted == this.paths.length) {
+            if (noPathsCompleted == this.paths.length) {
                 this.gameOver = true;
             }
         }
     }
 
-    var getClosePoints = function(point, radius) {
+    var getClosePoints = function (point, radius) {
         var result = [];
-        for(var i = 0; i <this.points.length; i++) {
-            if(checkFoundPoint(point.x, point.y, this.points[i].x, this.points[i].y, radius) && this.points[i].selectable) {
+        for (var i = 0; i < this.points.length; i++) {
+            if (checkFoundPoint(point.x, point.y, this.points[i].x, this.points[i].y, radius) && this.points[i].selectable) {
                 result.push(this.points[i]);
             }
         }
@@ -88,7 +100,7 @@ function Path(sx, sy, ex, ey, fillStyle) {
     this.crtPoint = null;
     var end = null;
 
-    this.init = function(ctx) {
+    this.init = function (ctx) {
         this.start = new Point(this.sx, this.sy);
         end = new Point(this.ex, this.ey);
         this.start.draw(ctx, this.fillStyle);
@@ -97,17 +109,17 @@ function Path(sx, sy, ex, ey, fillStyle) {
 
     this.canStart = function (x, y) {
 
-        if(this.start == null || this.isCompleted) return false;
+        if (this.start == null || this.isCompleted) return false;
 
         return checkFoundPoint(x, y, this.start.x, this.start.y, 10);
     }
 
-    this.drawNextPoint = function(ctx, point) {
-        if(this.crtPoint == null) {
+    this.drawNextPoint = function (ctx, point) {
+        if (this.crtPoint == null) {
             this.crtPoint = this.start;
         }
         else {
-            if(point.equalEps(end)) {
+            if (point.equalEps(end)) {
                 this.isCompleted = true;
                 point = end;
             }
@@ -120,12 +132,12 @@ function Path(sx, sy, ex, ey, fillStyle) {
         }
     }
 
-    this.checkFinish = function(x, y){
-        if(helper.manhattanDistance(this.crtPoint, end) > 60) return false;
-        return helper.closeEps(new Point(x,y), end, 10);
+    this.checkFinish = function (x, y) {
+        if (helper.manhattanDistance(this.crtPoint, end) > 60) return false;
+        return helper.closeEps(new Point(x, y), end, 10);
     }
 
-    this.showCompleted = function(ctx){
+    this.showCompleted = function (ctx) {
         DrawingHelper(this.ey, ctx);
     }
 }
@@ -137,13 +149,13 @@ function Point(x, y) {
     this.draw = function (ctx, fillStyle) {
         ctx.beginPath();
         ctx.arc(this.x, this.y, 4.5, 0, 2 * Math.PI);
-        if(fillStyle != null) {
+        if (fillStyle != null) {
             ctx.fillStyle = fillStyle;
         }
         ctx.closePath();
         ctx.fill();
     }
-    this.equal = function(p) {
+    this.equal = function (p) {
         return p.x == this.x && p.y == this.y;
     }
 
@@ -159,7 +171,7 @@ function Line(start, end) {
         ctx.beginPath();
         ctx.moveTo(this.start.x, this.start.y);
         ctx.lineTo(this.end.x, this.end.y);
-        if(fillStyle != null) {
+        if (fillStyle != null) {
             ctx.strokeStyle = fillStyle;
         }
         ctx.stroke();
@@ -172,12 +184,12 @@ function checkFoundPoint(x1, y1, x2, y2, radius) {
 }
 
 function DrawingHelper(ey, ctx) {
-    if(ey == 80) {
+    if (ey == 80) {
         var dy1 = 3;
         var dy2 = 5;
         var y1 = 60;
         var y2 = 50;
-        for(var i = 0; i < 10; i++) {
+        for (var i = 0; i < 10; i++) {
             var p1 = new Point(32, y1 + i * dy1);
             var p2 = new Point(12, y2 + i * dy2);
             var line = new Line(p1, p2);
@@ -185,12 +197,12 @@ function DrawingHelper(ey, ctx) {
         }
         return;
     }
-    if(ey == 325) {
+    if (ey == 325) {
         var dy1 = 3;
         var dy2 = 5;
         var y1 = 305;
         var y2 = 295;
-        for(var i = 0; i < 10; i++) {
+        for (var i = 0; i < 10; i++) {
             var p1 = new Point(32, y1 + i * dy1);
             var p2 = new Point(12, y2 + i * dy2);
             var line = new Line(p1, p2);
@@ -198,14 +210,14 @@ function DrawingHelper(ey, ctx) {
         }
         return;
     }
-    if(ey == 117) {
+    if (ey == 117) {
         ctx.fillStyle = "#FF0000";
-        ctx.fillRect(928,107,10, 20);
+        ctx.fillRect(928, 107, 10, 20);
         return;
     }
-    if(ey == 288) {
+    if (ey == 288) {
         ctx.fillStyle = "#FF0000";
-        ctx.fillRect(928,278,10, 20);
+        ctx.fillRect(928, 278, 10, 20);
     }
 }
 

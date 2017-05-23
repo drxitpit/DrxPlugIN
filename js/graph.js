@@ -9,14 +9,14 @@ function graph(V) {
     var n = 0;
     var dist = [];
 
-    this.init = function(V) {
+    this.init = function (V) {
         this.nodes = V;
         n = V.length;
-        for(var i = 0; i < n; i++) {
+        for (var i = 0; i < n; i++) {
             dist.push([]);
-            for(var j = 0; j < n; j++) {
+            for (var j = 0; j < n; j++) {
                 var w = helper.euclidianDistance(V[i], V[j]);
-                if(w < 60) {
+                if (w < 60) {
                     dist[i].push(w);
                 }
                 else {
@@ -25,10 +25,10 @@ function graph(V) {
             }
         }
 
-        for(var k = 0; k < n; k ++)
-            for(var i = 0; i < n; i++)
-                for(var j = 0; j < n; j++)
-                    if(dist[i][j] > dist[i][k] + dist[k][j])
+        for (var k = 0; k < n; k++)
+            for (var i = 0; i < n; i++)
+                for (var j = 0; j < n; j++)
+                    if (dist[i][j] > dist[i][k] + dist[k][j])
                         dist[i][j] = dist[i][k] + dist[k][j];
     }
 
@@ -38,6 +38,6 @@ function graph(V) {
 }
 
 
-function vertex(x, y){
+function vertex(x, y) {
 
 }

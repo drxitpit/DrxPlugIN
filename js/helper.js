@@ -15,12 +15,12 @@ var helper = {
         return dist < radius * radius;
     },
 
-    manhattanDistance: function(p, q) {
+    manhattanDistance: function (p, q) {
         return Math.abs(p.x - q.x) + Math.abs(p.y - q.y);
     },
 
     euclidianDistance: function (p, q) {
-       return Math.sqrt((p.x - q.x) * (p.x - q.x) + (p.y - q.y) * (p.y - q.y));
+        return Math.sqrt((p.x - q.x) * (p.x - q.x) + (p.y - q.y) * (p.y - q.y));
     },
 
     closeEps: function (p, q, eps) {

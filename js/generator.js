@@ -15,7 +15,7 @@ function randomPointsGenerator(x, y, width, height) {
             var crtX = getRandomInt(this.x, this.x + this.width);
             var crtY = getRandomInt(this.y, this.y + this.height);
 
-            if(inside(crtX, crtY, px, py, w, h)) {
+            if (inside(crtX, crtY, px, py, w, h)) {
                 continue;
             }
 
