@@ -51,6 +51,7 @@ function Graph() {
             var p1 = this.points[path[i]];
             var p2 = this.points[path[i+1]];
             var line = new Line(p1, p2);
+            line.skip = true;
             line.draw(ctx, "#00FF00");
         }
     }
