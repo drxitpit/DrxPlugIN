@@ -21,7 +21,7 @@ function randomPointsGenerator(x, y, width, height) {
 
             var tooClose = false;
             for (var i = 0; i < this.xs.length; i++) {
-                if (Math.abs(crtX - this.xs[i]) < 25 && Math.abs(crtY - this.ys[i]) < 25) {
+                if (Math.abs(crtX - this.xs[i]) < 23 && Math.abs(crtY - this.ys[i]) < 23) {
                     tooClose = true;
                     break;
                 }
