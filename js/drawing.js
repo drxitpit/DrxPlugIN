@@ -65,7 +65,7 @@ function DrawingContext(ctx) {
 
     function handleCurrentPath(x, y) {
         var path = currentPath;
-        var closePoints = getClosePoints(new Point(x, y), 10);
+        var closePoints = getClosePoints(new Point(x, y), 15);
 
         var point = (closePoints.length > 0) ? closePoints[0] : null;
         if (point !== null && selectablePoints.indexOf(point) >= 0) {
@@ -159,7 +159,7 @@ function Point(x, y) {
     this.selectable = true;
     this.draw = function (ctx, fillStyle) {
         ctx.beginPath();
-        ctx.arc(this.x, this.y, 4.5, 0, 2 * Math.PI);
+        ctx.arc(this.x, this.y, 6.5, 0, 2 * Math.PI);
         if (fillStyle !== null) {
             ctx.fillStyle = fillStyle;
         }

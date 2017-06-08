@@ -16,7 +16,7 @@ drx.onload = function () {
 }
 drx.src = "img/drxLogo.jpg";
 
-var n = 260;
+var n = 240;
 var allPoints = [];
 var generator = new randomPointsGenerator(58, 54, 840, 300);
 generator.generate(n, 440, 160, 90, 80);
@@ -40,9 +40,8 @@ var dist = 0;
 var edist = 0;
 var userDist = 0;
 for(var i = 0; i < 8; i++) {
-    dist += graph.getDist(allPoints[260 + i], allPoints[261 + i]);
-    edist += helper.euclidianDistance(allPoints[260 + i], allPoints[261+i]);
-    //graph.getPath(allPoints[260+i], allPoints[261+i], ctx);
+    dist += graph.getDist(allPoints[n + i], allPoints[n + i + 1]);
+    edist += helper.euclidianDistance(allPoints[n + i], allPoints[n + i + 1]);
     i++;
 }
 console.log(dist);
